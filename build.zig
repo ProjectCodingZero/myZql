@@ -28,14 +28,16 @@ pub fn build(b: *std.Build) void {
     // standard location when the user invokes the "install" step (the default
     // step when running `zig build`).
 
-    const connection_test = b.addTest(.{
+    const mysql_test = b.addTest(.{
         .name = "connection_test",
-        .root_source_file = b.path("test/Connection.zig"),
+        .root_source_file = b.path("src/mysql.zig"),
         .target = target,
         .optimize = optimize,
+        .link_libc = true,
     });
-    connection_test.root_module.addImport("mysql", mysql_module);
-    const test_cmd = b.addRunArtifact(connection_test);
+    mysql_test.linkSystemLibrary("mysqlclient");
+    //mysql_test.root_module.addImport("mysql", mysql_module);
+    const test_cmd = b.addRunArtifact(mysql_test);
     test_cmd.step.dependOn(b.getInstallStep());
     const test_step = b.step("test", "run the test");
     test_step.dependOn(&test_cmd.step);
