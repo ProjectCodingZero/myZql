@@ -17,7 +17,7 @@ pub fn build(b: *std.Build) void {
     // location when the user invokes the "install" step (the default step when
     // running `zig build`).
     const mysql_module = b.createModule(.{
-        .root_source_file = b.path("src/mysql.zig"),
+        .root_source_file = b.path("src/myzql.zig"),
         .link_libc = true,
         .optimize = optimize,
         .target = target,
@@ -30,7 +30,7 @@ pub fn build(b: *std.Build) void {
 
     const mysql_test = b.addTest(.{
         .name = "connection_test",
-        .root_source_file = b.path("src/mysql.zig"),
+        .root_source_file = b.path("src/myzql.zig"),
         .target = target,
         .optimize = optimize,
         .link_libc = true,
